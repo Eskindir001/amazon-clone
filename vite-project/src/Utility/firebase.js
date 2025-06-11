@@ -1,23 +1,21 @@
-// Import the functions you need from the SDKs
-import { initializeApp } from "firebase/app"; // Correct import for initializing Firebase
-import { getAuth } from "firebase/auth"; // Correct import for Firebase Auth
-import { getFirestore } from "firebase/firestore"; // Correct import for Firestore
+// Import the functions you need from the SDKs you need
+import firebase from "firebase/compat/app"
+// auth
+import {getAuth} from "firebase/auth";
+import "firebase/compat/firestore";
+import "firebase/compat/auth"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  // apiKey: "AIzaSyDwffywm4AEiztt_InL7g68vamgaNaONL8",
-  authDomain: "clone-3ed40.firebaseapp.com",
-  projectId: "clone-3ed40",
-  storageBucket: "clone-3ed40.firebasestorage.app",
-  messagingSenderId: "1017611949236",
-  appId: "1:1017611949236:web:39dd3fff45d0117d98f3e1",
+apiKey: "AIzaSyAfifPAnrKuTk5I7XayrTE9E1kcgpnE3Zg",
+authDomain: "clone-d909e.firebaseapp.com",
+projectId: "clone-d909e",
+storageBucket: "clone-d909e.firebasestorage.app",
+messagingSenderId: "286032909573",
+appId: "1:286032909573:web:3de2d9fb793a7a3eed136c"
 };
-console.log(firebaseConfig.apiKey);
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig); // Initialize the Firebase app with the configuration
-
-// Initialize Firebase services
-export const auth = getAuth(app); // Initialize Firebase Auth
-export const db = getFirestore(app); // Initialize Firestore
+const app = firebase.initializeApp(firebaseConfig);
+export const auth =getAuth(app)
+export const db=app.firestore()

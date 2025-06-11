@@ -44,7 +44,7 @@ const Header = () => {
                 <option value="">All</option>
               </select>
               <input type="text" name="" id="" placeholder="search product" />
-              {/*  */}
+              {/* icon */}
               <BsSearch size={40} />
             </div>
 

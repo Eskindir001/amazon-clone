@@ -1,37 +1,52 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { productUrl } from '../../Components/Api/endPoints';
-import ProductCard from '../../Components/Product/ProductCard';
-import LayOut from '../../Components/LayOut/LayOut';
-import Loader from '../../Components/Loader/Loader';
+import React, { useEffect, useState } from "react";
+import classes from "./ProductDetail.module.css";
+import LayOut from "../../Components/LayOut/LayOut";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { productUrl } from "../../Api/endPoints";
+import ProductCard from "../../Components/Product/ProductCard";
+import Loader from "../../Components/Loader/Loader";
 
-const ProductDetail = () => {
-    const [product, setProduct] = useState({});
-    const [isLoading, setisLoading] = useState(false);
-    const {productId}=useParams();
-    console.log(productId);
+function ProductDetail() {
+  const { productId } = useParams(); // Get productId from the URL
+  const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null); // State to handle errors
 
-    useEffect(()=>{
-        setisLoading(true)
-        axios.get(`${productUrl}/products/${productId}`)
-            .then((res) => {
-                setProduct(res.data);
-                setisLoading(false)
-                console.log(res.data);
-                
-            })
-            .catch((err) => {
-                console.log(err);
-                setisLoading(false)
-            });
-    },[])
+  useEffect(() => {
+    setIsLoading(true);
+    setError(null); // Reset error state on new request
 
-    return (
-      <LayOut>
-        {isLoading ? <Loader /> : <ProductCard product={product} flex={true} renderDescription={true}  renderAdd={true}/>}
-      </LayOut>
-    );
+    axios
+      .get(`${productUrl}/products/${productId}`)
+      .then((res) => {
+        setProduct(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to load product details. Please try again later.");
+        setIsLoading(false);
+      });
+  }, [productId]); // Include productId in the dependency array
+
+  return (
+    <LayOut>
+      {/* if isLoading is true, show Loader component */}
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <div className={classes.error}>{error}</div> // Display error if fetching fails
+      ) : (
+        <ProductCard
+          Product={product}
+          flex={true}
+          renderDesc={true}
+          renderAdd={true}
+        />
+      )}
+    </LayOut>
+  );
 }
 
-export default ProductDetail
+export default ProductDetail;
